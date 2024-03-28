@@ -1,38 +1,38 @@
 <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $enypt=md5($password);
-        
-        $db_host = 'localhost'; 
-        $db_username = 'root'; 
-        $db_password = ''; 
-        $db_name = 'project1'; 
-        $conn = new mysqli($db_host, $db_username, $db_password, $db_name);
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+session_start(); 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $encrypt = md5($password);
+    include('connection.php');    
+    $sql = "SELECT role FROM users WHERE name='$username' AND password='$encrypt'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $role = $row["role"];
+        $_SESSION['username'] = $username; 
+        if ($role == "admin") {
+            header("Location: admindashboard.php");
+            exit(); 
+        } else {
+            header("Location: studentdashboard.php");
+            exit(); 
         }
-
-        
-$sql = "SELECT role FROM users WHERE name='$username' AND password='$enypt'";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $role = $row["role"];
-    if ($role == "admin") {
-        header("Location: admindashboard.php");
-        exit(); 
     } else {
-        header("Location: studentdashboard.php");
-        exit(); 
+        echo "<script>alert('Invalid username or password!');</script>";
     }
-} else {
-    echo "<p style='text-align:center; color:red;'>Invalid username or password!</p>";
+    if (isset($_POST['remember'])) {
+        setcookie('username', $username, time() + (86400 * 30), "/");
+    } else {
+        setcookie('username', '', time() - 3600, "/");
+    }
+    
+    $conn->close();
 }
-        $conn->close();
-    }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,17 +45,30 @@ if ($result->num_rows > 0) {
         <h2>Login Form</h2>
         <form method="post" action="">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+            <input type="text" id="username" name="username" value="<?php if(isset($_COOKIE["username"])){echo $_COOKIE["username"]; }?>" required>
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <input type="checkbox" id="remember" name="remember">
-            <label for="remember">Remember me</label>
-            <input type="submit" value="Login">
+            <input type="password" id="password" name="password" value="<?php if(isset($_COOKIE["password"])){echo $_COOKIE["password"]; }?>" required>
+            <input type="checkbox" id="show_password"> Show Password
+            <input type="submit" value="Login"><br>
+            <input type="checkbox" id="remember" name="remember"> Remember Me
         </form>
     </div>
+    <script>
+        document.getElementById("show_password").addEventListener("change", function() {
+            var passwordField = document.getElementById("password");
+
+            if (this.checked) {
+                passwordField.setAttribute("type", "text");
+            } else {
+                passwordField.setAttribute("type", "password");
+            }
+        });
+    </script>
 
     <footer>
         &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
     </footer>
 </body>
 </html>
+
+

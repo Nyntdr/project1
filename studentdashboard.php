@@ -1,83 +1,18 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Student Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #111;
-            padding-top: 20px;
-        }
-        .sidebar a {
-            padding: 10px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #ccc;
-            display: block;
-        }
-        .sidebar a:hover {
-            background-color: #444;
-        }
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-        }
-        .header {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .button {
-            flex-grow: 1;
-            padding: 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-right: 10px;
-            box-sizing: border-box;
-        }
-        .button:hover {
-            background-color: #007bff; 
-        }
-        .delete-button {
-            background-color: #dc3545; 
-        }
-        .delete-button:hover {
-            background-color: #c82333; 
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-    </style>
+    <link rel="stylesheet" href="student.css">
 </head>
 <body>
     <div class="sidebar">
-        <a href="studentdashboard.php">Dashboard</a>
-        <a href="#">My Subjects</a>
-        <a href="#">Notices</a>
-        <a href="#">My Profile</a>
+        <a href="studentdashboard.php">Student Dashboard</a>
+        <a href="s_subject.php">My Subjects</a>
+        <a href="notice.php">Notices</a>
+        <a href="s_profile.php">My Profile</a>
         <a href="login.php">Logout</a> 
     </div>
 
@@ -85,12 +20,8 @@
         <div class="header">
             <h1>Student Dashboard</h1>
         </div>
-        <p>Welcome to the Student dashboard. You can navigate through the menu on the left.</p>
-        <div class="button-container">
-        <button class="button">Add Record</button>
-        <button class="button delete-button">Delete Record</button>
-        <button class="button">Edit Record</button>
-    </div>
+        <p>Welcome to the Student dashboard,<b><?php echo $_SESSION['username']; ?></b>.</p>
+        
     </div>
     <footer>
         &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 

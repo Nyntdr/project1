@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SIMS-Register</title>
-    <link rel="stylesheet" href="reg.css">    
+    <title>Add Users</title>
+    <link rel="stylesheet" href="adding.css">     
 </head>
 <body>
-    <h1 style="text-align: center;">Student Information Management System</h1>
+<div class="sidebar">
+        <a href="admindashboard.php">Admin Dashboard</a>
+        <a href="users.php">Users</a>
+        <a href="a_student.php">Students</a>
+        <a href="a_subject.php">Subjects</a>
+        <a href="a_profile.php">My Profile</a>
+        <a href="login.php">Logout</a>  
+    </div>
     <div class="container">
-        <h2>Register</h2>
+        <h2>Add Users</h2>
         <form method="post" action="">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -20,43 +27,23 @@
             </select>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
-            <label for="confirm_password">Confirm Password:</label>
-            <input type="password" id="confirm_password" name="confirm_password" required>
-            <input type="checkbox" id="show_password"> Show Password
-            <input type="submit" value="Register">
+            <input type="submit" value="Add">
         </form>
     </div>
-    <script>
-        document.getElementById("show_password").addEventListener("change", function() {
-            var passwordField = document.getElementById("password");
-            var confirmPasswordField = document.getElementById("confirm_password");
-
-            if (this.checked) {
-                passwordField.setAttribute("type", "text");
-                confirmPasswordField.setAttribute("type", "text");
-            } else {
-                passwordField.setAttribute("type", "password");
-                confirmPasswordField.setAttribute("type", "password");
-            }
-        });
-    </script>
-
-    <?php
+<?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username = $_POST['username'];
         $email = $_POST['email'];
         $role = $_POST['role'];
         $password = $_POST['password'];
-        $confirm_password = $_POST['confirm_password'];
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             echo "<script>alert('Invalid email format!');</script>";
         } else {
             $password_length = strlen($password);
             if ($password_length < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[a-z]/', $password) || !preg_match('/[0-9]/', $password)) {
                 echo "<script>alert('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one numerical value!');</script>";
-            } elseif ($password !== $confirm_password) {
-                echo "<script>alert('Passwords do not match!');</script>";
-            } else {
+            } 
+            else {
                 if (!preg_match('/\d$/', $username)) {
                     echo "<script>alert('Username must end with a number!');</script>";
                 } else {
@@ -65,9 +52,9 @@
                     $sql = "INSERT INTO users(name,email, password, role) VALUES ('$username', '$email', '$hashed_password','$role')";
 
                     if ($conn->query($sql) == TRUE) {
-                        echo "<script>alert('Registration successful!');</script>";
+                        echo "<script>alert('Add Successful!');</script>";
                     } else {
-                        echo "<script>alert('Error registering.');</script>";
+                        echo "<script>alert('Add Unsucessful!');</script>";
                     }
                     $conn->close();
                 }
@@ -81,3 +68,4 @@
     </footer>
 </body>
 </html>
+

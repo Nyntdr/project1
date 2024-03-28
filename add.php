@@ -1,11 +1,7 @@
-<?php
-session_start(); 
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Dashboard</title>
+    <title>Add Information</title>
     <link rel="stylesheet" href="admin.css">
 </head>
 <body>
@@ -20,14 +16,14 @@ session_start();
 
     <div class="content">
         <div class="header">
-            <h1>Admin Dashboard</h1>
+            <h1>Add Infromation</h1>
         </div>
         
-        <p>Welcome to the Admin dashboard, <b><?php echo $_SESSION['username']; ?></b>.</p>
+        <p>Choose which table to add data in.</p>
         <div class="button-container">
-            <button class="button" onclick="location.href='add.php';">Add Information</button>
-            <button class="button delete-button" onclick="location.href='delete.php';">Delete Information</button>
-            <button class="button" onclick="location.href='edit.php';">Edit Information</button>
+            <button class="button" onclick="location.href='add_user.php';">Users</button>
+            <button class="button" onclick="location.href='add_subject.php';">Subjects</button>
+            <button class="button" onclick="location.href='add_student.php';">Students</button>
         </div>
     </div>
     <footer>
