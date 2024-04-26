@@ -1,71 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Subjects</title>
-    <link rel="stylesheet" href="adding.css">     
+    <title>Add Subject</title>
+    <link rel="stylesheet" href="adding.css">
 </head>
 <body>
-<div class="sidebar">
+    <div class="sidebar">
         <a href="admindashboard.php">Admin Dashboard</a>
         <a href="users.php">Users</a>
         <a href="a_student.php">Students</a>
         <a href="a_subject.php">Subjects</a>
         <a href="a_profile.php">My Profile</a>
-        <a href="login.php">Logout</a>  
+        <a href="login.php">Logout</a> 
     </div>
-    <div class="container">
-        <h2>Add Subjects</h2>
-        <form method="post" action="">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="role">Role:</label>
-            <select id="role" name="role" required>
-                <option value="student">Student</option>
-                <option value="admin">Admin</option>
-            </select>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <input type="submit" value="Add">
-        </form>
-    </div>
-<?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $role = $_POST['role'];
-        $password = $_POST['password'];
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo "<script>alert('Invalid email format!');</script>";
-        } else {
-            $password_length = strlen($password);
-            if ($password_length < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[a-z]/', $password) || !preg_match('/[0-9]/', $password)) {
-                echo "<script>alert('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one numerical value!');</script>";
-            } 
-            else {
-                if (!preg_match('/\d$/', $username)) {
-                    echo "<script>alert('Username must end with a number!');</script>";
-                } else {
-                    $hashed_password = md5($password);
-                    include('connection.php');
-                    $sql = "INSERT INTO users(name,email, password, role) VALUES ('$username', '$email', '$hashed_password','$role')";
 
-                    if ($conn->query($sql) == TRUE) {
-                        echo "<script>alert('Add Successful!');</script>";
-                    } else {
-                        echo "<script>alert('Add Unsucessful!');</script>";
-                    }
-                    $conn->close();
+    <div class="content">
+        <div class="header">
+            <h1>Add Subject</h1>
+        </div>
+        
+        <div class="container">
+        <h2>Add Subject</h2>
+            <form method="post" action="">
+                <label for="subject_name">Subject Name:</label>
+                <input type="text" id="subject_name" name="subject_name" required>
+                <label for="scode">Subject Code:</label>
+                <input type="text" id="scode" name="scode" required>
+                <label for="credit_hour">Credit Hour:</label>
+                <input type="text" id="credit_hour" name="credit_hour" required>
+                <label for="theory">Theory:</label>
+                <input type="text" id="theory" name="theory" required>
+                <label for="practical">Practical:</label>
+                <input type="text" id="practical" name="practical" required>
+                <input type="submit" value="Add Subject">
+            </form>
+        </div>
+
+        <?php
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $subject_name = $_POST['subject_name'];
+                $scode = $_POST['scode'];
+                $credit_hour = $_POST['credit_hour'];
+                $theory = $_POST['theory'];
+                $practical = $_POST['practical'];
+                
+                include('connection.php');
+                $sql = "INSERT INTO subjects (subject_name, scode, credit_hour, theory, practical) 
+                        VALUES ('$subject_name', '$scode', '$credit_hour', '$theory', '$practical')";
+                
+                if ($conn->query($sql) === TRUE) {
+                    echo "<script>alert('Subject added successfully!');</script>";
+                } else {
+                    echo "<script>alert('Error: " . $sql . "<br>" . $conn->error . "');</script>";
                 }
+                
+                $conn->close();
             }
-        }
-    }
-    ?>
+        ?>
+    </div>
 
     <footer>
         &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
     </footer>
 </body>
 </html>
+
 

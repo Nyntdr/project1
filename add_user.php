@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="adding.css">     
 </head>
 <body>
-<div class="sidebar">
+    <div class="sidebar">
         <a href="admindashboard.php">Admin Dashboard</a>
         <a href="users.php">Users</a>
         <a href="a_student.php">Students</a>
@@ -27,6 +27,7 @@
             </select>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
+            <input type="checkbox" onclick="showPassword()"> Show Password
             <input type="submit" value="Add">
         </form>
     </div>
@@ -61,11 +62,21 @@
             }
         }
     }
-    ?>
+?>
 
-    <footer>
-        &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
-    </footer>
+<script>
+function showPassword() {
+    var passwordField = document.getElementById("password");
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+    } else {
+        passwordField.type = "password";
+    }
+}
+</script>
+
+<footer>
+    &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
+</footer>
 </body>
 </html>
-
