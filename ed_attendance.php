@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Edit Student Details</title>
+    <title>Edit Attendance Details</title>
     <link rel="stylesheet" href="a_details.css">
 </head>
 <body>
@@ -16,40 +16,32 @@
 
     <div class="content">
         <div class="header">
-            <h1>Edit Student Details:</h1>
+            <h1>Edit Attendance Details:</h1>
         </div>
         <table>
             <tr>
-                <th>Student ID</th>
-                <th>User ID</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Class</th>
-                <th>Address</th>
-                <th>Parent Phone</th>
-                <th>Student Phone</th>
-                <th>Action</th>
+                <th>ID</th>
+                <th>SID</th>
+                <th>Subject Name</th>
+                <th>Attendance</th>
+                <th>Action</th> <!-- New column for Edit button -->
             </tr>
             <?php
              include('connection.php');
-             $sql = "SELECT * FROM students";
+             $sql = "SELECT * FROM attendance";
              $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>";
+                    echo "<td>" . $row["id"] . "</td>";
                     echo "<td>" . $row["sid"] . "</td>";
-                    echo "<td>" . $row["uid"] . "</td>";
-                    echo "<td>" . $row["sname"] . "</td>";
-                    echo "<td>" . $row["age"] . "</td>";
-                    echo "<td>" . $row["class"] . "</td>";
-                    echo "<td>" . $row["address"] . "</td>";
-                    echo "<td>" . $row["p_phoneno"] . "</td>";
-                    echo "<td>" . $row["s_phoneno"] . "</td>";
-                    echo "<td><a href='edit_student.php?sid=".$row["sid"]."'>Edit</a></td>";
+                    echo "<td>" . $row["subject_name"] . "</td>";
+                    echo "<td>" . $row["attendance"] . "</td>";
+                    echo "<td><a href='edit_attendance.php?id=" . $row["id"] . "'>Edit</a></td>"; // Edit button with dynamic URL
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='9'>No students found</td></tr>";
+                echo "<tr><td colspan='5'>No attendance found</td></tr>";
             }
             $conn->close();
             ?>

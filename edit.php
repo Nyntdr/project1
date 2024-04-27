@@ -24,6 +24,8 @@
             <button class="button" onclick="location.href='ed_user.php';">Users</button>
             <button class="button" onclick="location.href='ed_subject.php';">Subjects</button>
             <button class="button" onclick="location.href='ed_student.php';">Students</button>
+            <button class="button" onclick="location.href='ed_learn.php';">Student Subjects</button>
+            <button class="button" onclick="location.href='ed_attendance.php';">Attendance</button>
         </div>
     </div>
     <footer>

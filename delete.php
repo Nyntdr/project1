@@ -24,6 +24,9 @@
             <button class="button" onclick="location.href='del_user.php';">Users</button>
             <button class="button" onclick="location.href='del_subject.php';">Subjects</button>
             <button class="button" onclick="location.href='del_student.php';">Students</button>
+            <button class="button" onclick="location.href='del_learn.php';">Student Subjects</button>
+            <button class="button" onclick="location.href='del_attendance.php';">Attendance</button>
+
         </div>
     </div>
     <footer>

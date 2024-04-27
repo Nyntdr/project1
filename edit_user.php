@@ -126,7 +126,7 @@
             $sql = "UPDATE users SET name='$name', email='$email', role='$role', password='$password' WHERE uid=$uid";
             if ($conn->query($sql) === TRUE) {
                 echo "<script>alert('Record updated successfully');</script>";
-                echo "<script>window.location.href='users.php';</script>";
+                echo "<script>window.location.href='ed_users.php';</script>";
             } else {
                 echo "Error updating record: " . $conn->error;
             }

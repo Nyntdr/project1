@@ -132,7 +132,7 @@
             $sql = "UPDATE students SET sname='$sname', age='$age', class='$class', address='$address', p_phoneno='$p_phoneno', s_phoneno='$s_phoneno' WHERE sid=$sid";
             if ($conn->query($sql) === TRUE) {
                 echo "<script>alert('Record updated successfully');</script>";
-                echo "<script>window.location.href='a_student.php';</script>";
+                echo "<script>window.location.href='ed_student.php';</script>";
             } else {
                 echo "Error updating record: " . $conn->error;
             }

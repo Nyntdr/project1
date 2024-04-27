@@ -16,7 +16,7 @@
 
     <div class="content">
         <div class="header">
-            <h1>Add Infromation</h1>
+            <h1>Add Information</h1>
         </div>
         
         <p>Choose which table to add data in.</p>
@@ -24,6 +24,8 @@
             <button class="button" onclick="location.href='add_user.php';">Users</button>
             <button class="button" onclick="location.href='add_subject.php';">Subjects</button>
             <button class="button" onclick="location.href='add_student.php';">Students</button>
+            <button class="button" onclick="location.href='add_learn.php';">Student Subject</button>
+            <button class="button" onclick="location.href='add_attendance.php';">Attendance</button>
         </div>
     </div>
     <footer>

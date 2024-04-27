@@ -25,6 +25,7 @@ $conn->close();
         <a href="a_student.php">Students</a>
         <a href="a_subject.php">Subjects</a>
         <a href="a_profile.php">My Profile</a>
+        <a href="a_notice.php">Notice Management</a> 
         <a href="login.php">Logout</a>  
     </div>
 

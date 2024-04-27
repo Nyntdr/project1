@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Subject</title>
-    <!-- <link rel="stylesheet" href="a_details.css"> -->
+    <title>Edit Notice</title>
+    <link rel="stylesheet" href="a_details.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -75,7 +75,7 @@
         label {
             display: block;
             margin-bottom: 5px;
-        }
+        }  
     </style>
 </head>
 <body>
@@ -90,53 +90,44 @@
 
     <div class="content">
         <div class="header">
-            <h1>Edit Subject</h1>
+            <h1>Edit Notice</h1>
         </div>
         <?php
         include('connection.php');
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            $subject_id = $_GET['id'];
-            $sql = "SELECT * FROM subjects WHERE subjectid=$subject_id";
+            $id = $_GET['id'];
+            $sql = "SELECT * FROM notice WHERE id=$id";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
         ?>
         <form method="post" action="">
-            <input type="hidden" name="subjectid" value="<?php echo $row['subjectid']; ?>">
-            <label for="subject_name">Subject Name:</label>
-            <input type="text" id="subject_name" name="subject_name" value="<?php echo $row['subject_name']; ?>" required>
-            <label for="scode">Subject Code:</label>
-            <input type="text" id="scode" name="scode" value="<?php echo $row['scode']; ?>" required>
-            <label for="credit_hour">Credit Hour:</label>
-            <input type="text" id="credit_hour" name="credit_hour" value="<?php echo $row['credit_hour']; ?>" required>
-            <label for="theory">Theory:</label>
-            <input type="text" id="theory" name="theory" value="<?php echo $row['theory']; ?>" required>
-            <label for="practical">Practical:</label>
-            <input type="text" id="practical" name="practical" value="<?php echo $row['practical']; ?>" required>
+            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" value="<?php echo $row['title']; ?>" required>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" value="<?php echo $row['description']; ?>" required>
+            <label for="date">Date:</label>
+            <input type="text" id="date" name="date" value="<?php echo $row['date']; ?>" required>
             <input type="submit" value="Update">
         </form>
         <?php
             } else {
-                echo "Subject not found.";
+                echo "Record not found in notice.";
             }
         } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $subjectid = $_POST['subjectid'];
-            $subject_name = $_POST['subject_name'];
-            $scode = $_POST['scode'];
-            $credit_hour = $_POST['credit_hour'];
-            $theory = $_POST['theory'];
-            $practical = $_POST['practical'];
+            $id = $_POST['id'];
+            $title = $_POST['title'];
+            $description = $_POST['description'];
+            $date = $_POST['date'];
 
-            $sql = "UPDATE subjects SET subject_name='$subject_name', scode='$scode', credit_hour='$credit_hour', theory='$theory', practical='$practical' WHERE subjectid=$subjectid";
-
+            $sql = "UPDATE notice SET title='$title', description='$description', date='$date' WHERE id=$id";
             if ($conn->query($sql) === TRUE) {
                 echo "<script>alert('Record updated successfully');</script>";
-                echo "<script>window.location.href='ed_subject.php';</script>";
+                echo "<script>window.location.href='a_notice.php';</script>";
             } else {
                 echo "Error updating record: " . $conn->error;
             }
-
-            $conn->close();
         }
         ?>
     </div>

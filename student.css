@@ -64,3 +64,25 @@ footer {
     bottom: 0;
     width: 100%;
 }
+.content ul {
+    list-style-type: none;
+    padding: 0;
+}
+.content ul li {
+    padding: 5px 0;
+}
+
+/* Style for recent notice */
+.content h2 {
+    margin-top: 20px;
+}
+.content p {
+    margin: 5px 0;
+}
+
+/* Style for attendance chart */
+#attendanceChart {
+    max-width: 300px;
+    max-height: 300px;
+    margin: 0 auto;
+}

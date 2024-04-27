@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Delete User Details</title>
+    <title>Edit User Details</title>
     <link rel="stylesheet" href="a_details.css">
 </head>
 <body>

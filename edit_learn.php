@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Subject</title>
-    <!-- <link rel="stylesheet" href="a_details.css"> -->
+    <title>Edit Learns</title>
+    <link rel="stylesheet" href="a_details.css">
     <style>
-        body {
+       body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -75,12 +75,12 @@
         label {
             display: block;
             margin-bottom: 5px;
-        }
+        }  
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <a href="admindashboard.php">Admin Dashboard</a>
+    <a href="admindashboard.php">Admin Dashboard</a>
         <a href="users.php">Users</a>
         <a href="a_student.php">Students</a>
         <a href="a_subject.php">Subjects</a>
@@ -90,58 +90,46 @@
 
     <div class="content">
         <div class="header">
-            <h1>Edit Subject</h1>
+            <h1>Edit Student Subjects</h1>
         </div>
         <?php
         include('connection.php');
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            $subject_id = $_GET['id'];
-            $sql = "SELECT * FROM subjects WHERE subjectid=$subject_id";
+            $id = $_GET['id'];
+            $sql = "SELECT * FROM learns WHERE id=$id";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
         ?>
         <form method="post" action="">
-            <input type="hidden" name="subjectid" value="<?php echo $row['subjectid']; ?>">
-            <label for="subject_name">Subject Name:</label>
-            <input type="text" id="subject_name" name="subject_name" value="<?php echo $row['subject_name']; ?>" required>
-            <label for="scode">Subject Code:</label>
-            <input type="text" id="scode" name="scode" value="<?php echo $row['scode']; ?>" required>
-            <label for="credit_hour">Credit Hour:</label>
-            <input type="text" id="credit_hour" name="credit_hour" value="<?php echo $row['credit_hour']; ?>" required>
-            <label for="theory">Theory:</label>
-            <input type="text" id="theory" name="theory" value="<?php echo $row['theory']; ?>" required>
-            <label for="practical">Practical:</label>
-            <input type="text" id="practical" name="practical" value="<?php echo $row['practical']; ?>" required>
+            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+            <label for="sid">Student ID:</label>
+            <input type="text" id="sid" name="sid" value="<?php echo $row['sid']; ?>" required>
+            <label for="subjectid">Subject ID:</label>
+            <input type="text" id="subjectid" name="subjectid" value="<?php echo $row['subjectid']; ?>" required>
             <input type="submit" value="Update">
         </form>
         <?php
             } else {
-                echo "Subject not found.";
+                echo "Record not found in learns.";
             }
         } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $id = $_POST['id'];
+            $sid = $_POST['sid'];
             $subjectid = $_POST['subjectid'];
-            $subject_name = $_POST['subject_name'];
-            $scode = $_POST['scode'];
-            $credit_hour = $_POST['credit_hour'];
-            $theory = $_POST['theory'];
-            $practical = $_POST['practical'];
 
-            $sql = "UPDATE subjects SET subject_name='$subject_name', scode='$scode', credit_hour='$credit_hour', theory='$theory', practical='$practical' WHERE subjectid=$subjectid";
-
+            $sql = "UPDATE learns SET sid='$sid', subjectid='$subjectid' WHERE id=$id";
             if ($conn->query($sql) === TRUE) {
                 echo "<script>alert('Record updated successfully');</script>";
-                echo "<script>window.location.href='ed_subject.php';</script>";
+                echo "<script>window.location.href='ed_learn.php';</script>";
             } else {
                 echo "Error updating record: " . $conn->error;
             }
-
-            $conn->close();
         }
         ?>
     </div>
     <footer>
-        &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
+    &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
     </footer>
 </body>
 </html>

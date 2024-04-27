@@ -20,8 +20,9 @@ $conn->close();
 </head>
 <body>
     <div class="sidebar">
-        <a href="studentdashboard.php">Student Dashboard</a>
+    <a href="studentdashboard.php">Student Dashboard</a>
         <a href="s_subject.php">My Subjects</a>
+        <a href="attendance_graph.php">Attendance</a>
         <a href="notice.php">Notices</a>
         <a href="s_profile.php">My Profile</a>
         <a href="login.php">Logout</a> 
