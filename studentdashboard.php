@@ -145,7 +145,7 @@ session_start();
 
             $conn->close();
             ?>
-            <canvas id="attendanceChart"></canvas>
+            <canvas id="attendanceChart" width="400" height="400"></canvas>
 
             <script>
                 var ctx = document.getElementById('attendanceChart').getContext('2d');

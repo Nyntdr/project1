@@ -1,0 +1,96 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    padding: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #ccc;
+    display: block;
+}
+
+.sidebar a:hover {
+    background-color: #444;
+}
+
+.content {
+    margin-left: 250px; /* Adjusted to accommodate the sidebar width */
+    padding: 20px;
+}
+
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 999; /* Ensure the footer appears above other content */
+}
+
+/* Profile Info */
+.profile-info {
+    margin-bottom: 20px;
+}
+
+.profile-info h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.profile-info p {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+/* Statistics */
+.statistics {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.stat-box {
+    width: 30%; /* Adjust width as needed */
+    background-color: #3498db;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    color: #fff;
+    margin-right: 20px; /* Add margin for spacing */
+}
+
+.stat-box:last-child {
+    margin-right: 0; /* Remove margin from the last box */
+}
+
+.stat-number {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.stat-text {
+    font-size: 16px;
+}
