@@ -138,7 +138,6 @@
             $color = "red";
         }
 
-        // Display the average attendance rate and suggestion with color coding
         echo "<p style='color: $color;'>Average Attendance Rate: " . number_format($averageAttendance, 2) . "%</p>";
         echo "<p style='color: $color;'>$suggestion</p>";
         ?>
@@ -148,8 +147,7 @@
     </div>
 
     <footer>
-        &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
-    </footer>
+        &copy; <?php echo date("Y"); ?> Student Information Management System 
 
     <script>
         var ctx = document.getElementById('attendanceChart').getContext('2d');

@@ -25,7 +25,6 @@
                 <th>User ID</th>
                 <th>Name</th>
                 <th>Age</th>
-                <th>Class</th>
                 <th>Address</th>
                 <th>Parent Phone</th>
                 <th>Student Phone</th>
@@ -41,7 +40,6 @@
                     echo "<td>" . $row["uid"] . "</td>";
                     echo "<td>" . $row["sname"] . "</td>";
                     echo "<td>" . $row["age"] . "</td>";
-                    echo "<td>" . $row["class"] . "</td>";
                     echo "<td>" . $row["address"] . "</td>";
                     echo "<td>" . $row["p_phoneno"] . "</td>";
                     echo "<td>" . $row["s_phoneno"] . "</td>";
@@ -55,7 +53,7 @@
         </table>
     </div>
     <footer>
-        &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
+        &copy; <?php echo date("Y"); ?> Student Information Management System 
     </footer>
 </body>
 </html>

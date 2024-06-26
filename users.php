@@ -49,7 +49,6 @@
         </table>
     </div>
     <footer>
-        &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
-    </footer>
+        &copy; <?php echo date("Y"); ?> Student Information Management System 
 </body>
 </html>

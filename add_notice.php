@@ -2,9 +2,9 @@
 <html>
 <head>
     <title>Add Notice</title>
-    <!-- <link rel="stylesheet" href="adding.css">      -->
+    <!-- <link rel="stylesheet" href="adding.css"> -->
     <style>
-                body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -69,7 +69,7 @@
         label {
             display: block;
             margin-bottom: 5px;
-        } 
+        }
         footer {
             background-color: #333;
             color: #fff;
@@ -108,21 +108,31 @@
         $description = $_POST['description'];
         $date = $_POST['date'];
         
-        include('connection.php');
-        $sql = "INSERT INTO notice(title, description, date) VALUES ('$title', '$description', '$date')";
-
-        if ($conn->query($sql) == TRUE) {
-            echo "<script>alert('Add Successful!');</script>";
-            echo "<script>window.location.href = 'a_notice.php';</script>";
-        } else {
-            echo "<script>alert('Add Unsucessful!');</script>";
-            echo "<script>window.location.href = 'a_notice.php';</script>";
+        function contains_text($input) {
+            return preg_match('/[a-zA-Z]/', $input);
         }
-        $conn->close();
+
+        if (!contains_text($title)) {
+            echo "<script>alert('Title must contain text.!');</script>";
+        } elseif (!contains_text($description)) {
+            echo "<script>alert('Description must contain text.!');</script>";
+        } else {
+            include('connection.php');
+            $sql = "INSERT INTO notice(title, description, date) VALUES ('$title', '$description', '$date')";
+
+            if ($conn->query($sql) == TRUE) {
+                echo "<script>alert('Add Successful!');</script>";
+                echo "<script>window.location.href = 'a_notice.php';</script>";
+            } else {
+                echo "<script>alert('Add Unsuccessful!');</script>";
+                echo "<script>window.location.href = 'a_notice.php';</script>";
+            }
+            $conn->close();
+        }
     }
 ?>
 <footer>
-    &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
+    &copy; <?php echo date("Y"); ?> Student Information Management System 
 </footer>
 </body>
 </html>

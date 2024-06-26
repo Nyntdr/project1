@@ -100,59 +100,90 @@
         <a href="a_profile.php">My Profile</a>
         <a href="login.php">Logout</a> 
     </div>
-        <div class="container">
-            <h2>Add Student</h2>
-            <form method="post" action="">
-              <label for="name">User Id:</label>
-                <input type="text" id="name" name="uid" required>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="sname" required>
-                
-                <label for="age">Age:</label>
-                <input type="text" id="age" name="age" required>
-                
-                <label for="class">Class:</label>
-                <input type="text" id="class" name="class" required>
-                
-                <label for="address">Address:</label>
-                <input type="text" id="address" name="address" required>
-                
-                <label for="p_phoneno">Parent Phone:</label>
-                <input type="text" id="p_phoneno" name="p_phoneno" required>
-                
-                <label for="s_phoneno">Student Phone:</label>
-                <input type="text" id="s_phoneno" name="s_phoneno" required>
-                
-                <input type="submit" value="Add Student">
-            </form>
-        </div>
+    <div class="container">
+        <h2>Add Student</h2>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <label for="uid">User ID:</label>
+            <input type="text" id="uid" name="uid" value="<?php echo isset($_POST['uid']) ? $_POST['uid'] : ''; ?>" required><br><br>
+
+            <label for="sname">Name:</label>
+            <input type="text" id="sname" name="sname" value="<?php echo isset($_POST['sname']) ? $_POST['sname'] : ''; ?>" required><br><br>
+            
+            <label for="age">Age:</label>
+            <input type="text" id="age" name="age" value="<?php echo isset($_POST['age']) ? $_POST['age'] : ''; ?>" required><br><br>
+            
+            <label for="class">Class:</label>
+            <input type="text" id="class" name="class" value="<?php echo isset($_POST['class']) ? $_POST['class'] : ''; ?>" required><br><br>
+            
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" value="<?php echo isset($_POST['address']) ? $_POST['address'] : ''; ?>" required><br><br>
+            
+            <label for="p_phoneno">Parent Phone:</label>
+            <input type="text" id="p_phoneno" name="p_phoneno" value="<?php echo isset($_POST['p_phoneno']) ? $_POST['p_phoneno'] : ''; ?>" required><br><br>
+            
+            <label for="s_phoneno">Student Phone:</label>
+            <input type="text" id="s_phoneno" name="s_phoneno" value="<?php echo isset($_POST['s_phoneno']) ? $_POST['s_phoneno'] : ''; ?>" required><br><br>
+            
+            <input type="submit" value="Add Student">
+        </form>
     </div>
 
     <footer>
-        &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
+        &copy; <?php echo date("Y"); ?> Student Information Management System 
     </footer>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $uid = $_POST['uid'];
+        $name = $_POST['sname'];
+        $age = $_POST['age'];
+        $class = $_POST['class'];
+        $address = $_POST['address'];
+        $p_phoneno = $_POST['p_phoneno'];
+        $s_phoneno = $_POST['s_phoneno'];
+        
+        $errors = [];
+        if (!preg_match("/^[a-zA-Z\s]*$/", $name)) {
+            $errors[] = "Name must contain only letters and spaces!";
+        }
+        if (!is_numeric($age) || $age < 1 || $age > 100) {
+            $errors[] = "Age must be a number between 1 and 100!";
+        }
+        if (!preg_match("/^[a-zA-Z\s,']*$/", $address)) {
+            $errors[] = "Address must contain only letters, spaces, and commas!";
+        }
+        if (!is_numeric($p_phoneno) || strlen($p_phoneno) !== 10) {
+            $errors[] = "Parent Phone Number must be exactly 10 digits and numeric only!";
+        }
+        if (!is_numeric($s_phoneno) || strlen($s_phoneno) !== 10) {
+            $errors[] = "Student Phone Number must be exactly 10 digits and numeric only!";
+        }
+        if (empty($errors)) {
+            include('connection.php');
+            $uid = mysqli_real_escape_string($conn, $uid);
+            $name = mysqli_real_escape_string($conn, $name);
+            $age = mysqli_real_escape_string($conn, $age);
+            $class = mysqli_real_escape_string($conn, $class);
+            $address = mysqli_real_escape_string($conn, $address);
+            $p_phoneno = mysqli_real_escape_string($conn, $p_phoneno);
+            $s_phoneno = mysqli_real_escape_string($conn, $s_phoneno);
+            $sql = "INSERT INTO students (uid, sname, age, class, address, p_phoneno, s_phoneno) 
+                    VALUES ('$uid', '$name', '$age', '$class', '$address', '$p_phoneno', '$s_phoneno')";
+            
+            if ($conn->query($sql) === TRUE) {
+                echo "<script>alert('Student added successfully!');</script>";
+                echo "<script>window.location.href = 'a_student.php';</script>";
+            } else {
+                echo "<script>alert('Error: " . $sql . "<br>" . $conn->error . "');</script>";
+            }
+
+            $conn->close();
+        } else {
+                  foreach ($errors as $error) {
+                echo "<script>alert('$error');</script>";
+            }
+        }
+    }
+    ?>
 </body>
 </html>
-<?php
-include('connection.php');
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $uid = $_POST['uid'];
-    $name = $_POST['sname'];
-    $age = $_POST['age'];
-    $class = $_POST['class'];
-    $address = $_POST['address'];
-    $p_phoneno = $_POST['p_phoneno'];
-    $s_phoneno = $_POST['s_phoneno'];
-    
-    $sql = "INSERT INTO students (uid,sname, age, class, address, p_phoneno, s_phoneno) 
-            VALUES ('$uid','$name', '$age', '$class', '$address', '$p_phoneno', '$s_phoneno')";
-    
-    if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Student added successfully!');</script>";
-        echo "<script>window.location.href = 'a_student.php';</script>";
-    } else {
-        echo "<script>alert('Error: " . $sql . "<br>" . $conn->error . "');</script>";
-    }
-}
-?>

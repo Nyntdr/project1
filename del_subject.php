@@ -24,7 +24,6 @@
                 <th>Subject ID</th>
                 <th>Subject Name</th>
                 <th>Subject Code</th>
-                <th>Credit Hour</th>
                 <th>Theory</th>
                 <th>Practical</th>
                 <th>Action</th>
@@ -39,7 +38,6 @@
                         echo "<td>".$row["subjectid"]."</td>";
                         echo "<td>".$row["subject_name"]."</td>";
                         echo "<td>".$row["scode"]."</td>";
-                        echo "<td>".$row["credit_hour"]."</td>";
                         echo "<td>".$row["theory"]."</td>";
                         echo "<td>".$row["practical"]."</td>";
                         echo "<td><a href=\"delete_subject.php?id=" . $row["subjectid"] . "\">Delete</a></td>";
@@ -53,7 +51,7 @@
         </table>
     </div>
     <footer>
-        &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
+        &copy; <?php echo date("Y"); ?> Student Information Management System
     </footer>
 </body>
 </html>

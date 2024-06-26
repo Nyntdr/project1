@@ -107,8 +107,6 @@
             <input type="text" id="subject_name" name="subject_name" value="<?php echo $row['subject_name']; ?>" required>
             <label for="scode">Subject Code:</label>
             <input type="text" id="scode" name="scode" value="<?php echo $row['scode']; ?>" required>
-            <label for="credit_hour">Credit Hour:</label>
-            <input type="text" id="credit_hour" name="credit_hour" value="<?php echo $row['credit_hour']; ?>" required>
             <label for="theory">Theory:</label>
             <input type="text" id="theory" name="theory" value="<?php echo $row['theory']; ?>" required>
             <label for="practical">Practical:</label>
@@ -123,11 +121,10 @@
             $subjectid = $_POST['subjectid'];
             $subject_name = $_POST['subject_name'];
             $scode = $_POST['scode'];
-            $credit_hour = $_POST['credit_hour'];
             $theory = $_POST['theory'];
             $practical = $_POST['practical'];
 
-            $sql = "UPDATE subjects SET subject_name='$subject_name', scode='$scode', credit_hour='$credit_hour', theory='$theory', practical='$practical' WHERE subjectid=$subjectid";
+            $sql = "UPDATE subjects SET subject_name='$subject_name', scode='$scode', theory='$theory', practical='$practical' WHERE subjectid=$subjectid";
 
             if ($conn->query($sql) === TRUE) {
                 echo "<script>alert('Record updated successfully');</script>";
@@ -141,7 +138,7 @@
         ?>
     </div>
     <footer>
-        &copy; <?php echo date("Y"); ?> Student Information Management System By Nayan & Sabina 
+        &copy; <?php echo date("Y"); ?> Student Information Management System 
     </footer>
 </body>
 </html>
