@@ -12,13 +12,15 @@
             tr = table.getElementsByTagName("tr");
 
             for (i = 1; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[1]; // index 1 for SID column
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
+                tr[i].style.display = "none";
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
                     }
                 }
             }
@@ -41,7 +43,7 @@
         </div>
         <br>
         <b>Search for Student Attendance Details:</b> 
-        <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for Student ID..">
+        <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for record..">
         <table id="dataTable">
             <tr>
                 <th>SID</th>
