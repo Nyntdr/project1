@@ -52,7 +52,7 @@
             </select>
             
             <label for="attendance">Attendance(%):</label>
-            <input type="text" id="attendance" name="attendance" pattern="[0-9]{1,3}" title="Attendance must be a number between 0 and 100" required>
+            <input type="text" id="attendance" name="attendance" pattern="[0-9]{1,3}" title="Attendance must be a number between 0 and 100" required max="100">
             
             <input type="submit" value="Add">
         </form>
@@ -65,7 +65,7 @@
         $attendance = $_POST['attendance'];
         
         // Validate attendance input
-        if (!preg_match('/^[0-9]{1,3}$/', $attendance)) {
+        if (!preg_match('/^[0-9]{1,3}$/', $attendance) || $attendance > 100) {
             echo "<script>alert('Attendance must be a number between 0 and 100!');</script>";
         } else {
             include_once('connection.php');
