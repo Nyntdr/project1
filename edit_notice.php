@@ -141,7 +141,7 @@
                 echo "<script>alert('Description must contain text.');</script>";
                 echo "<script>window.location.href='edit_notice.php?id=$id';</script>";
             } else {
-                $sql = "UPDATE notice SET title='$title', description='$description', date='$date' WHERE id=$id";
+                $sql = "UPDATE notice SET title='$title', description='$description' WHERE id=$id";
                 if ($conn->query($sql) === TRUE) {
                     echo "<script>alert('Record updated successfully');</script>";
                     echo "<script>window.location.href='a_notice.php';</script>";
