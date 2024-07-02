@@ -3,8 +3,8 @@ include('connection.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $id = $_GET['sid'];
-    
-    $sql = "DELETE FROM learns WHERE sid='$id'";
+    $subjectid = $_GET['subjectid']; 
+    $sql = "DELETE FROM learns WHERE sid='$id' AND subjectid='$subjectid'"; 
     
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('Student record deleted successfully!');</script>";

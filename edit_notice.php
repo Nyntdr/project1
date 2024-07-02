@@ -99,6 +99,11 @@
         </div>
         <?php
         include('connection.php');
+
+        function contains_text($input) {
+            return preg_match('/[a-zA-Z]/', $input);
+        }
+
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $id = $_GET['id'];
             $sql = "SELECT * FROM notice WHERE id=$id";
@@ -109,11 +114,11 @@
         <form method="post" action="">
             <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" value="<?php echo $row['title']; ?>" required>
+            <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($row['title']); ?>" required>
             <label for="description">Description:</label>
-            <textarea id="description" name="description" rows="4" required></textarea>
+            <textarea id="description" name="description" rows="4" required><?php echo htmlspecialchars($row['description']); ?></textarea>
             <label for="date">Date:</label>
-            <input type="text" id="date" name="date" value="<?php echo $row['date']; ?>" required>
+            <input type="text" id="date" name="date" value="<?php echo htmlspecialchars($row['date']); ?>" readonly>
             <input type="submit" value="Update">
         </form>
         <?php
@@ -124,15 +129,28 @@
             $id = $_POST['id'];
             $title = $_POST['title'];
             $description = $_POST['description'];
-            $date = $_POST['date'];
 
-            $sql = "UPDATE notice SET title='$title', description='$description', date='$date' WHERE id=$id";
-            if ($conn->query($sql) === TRUE) {
-                echo "<script>alert('Record updated successfully');</script>";
-                echo "<script>window.location.href='a_notice.php';</script>";
+            // Validation
+            if (!contains_text($title)) {
+                echo "<script>alert('Title must contain text.');</script>";
+                echo "<script>window.location.href='edit_notice.php?id=$id';</script>";
+            } elseif (strlen($title) > 50) {
+                echo "<script>alert('Title must be less than 50 characters.');</script>";
+                echo "<script>window.location.href='edit_notice.php?id=$id';</script>";
+            } elseif (!contains_text($description)) {
+                echo "<script>alert('Description must contain text.');</script>";
+                echo "<script>window.location.href='edit_notice.php?id=$id';</script>";
             } else {
-                echo "Error updating record: " . $conn->error;
+                $sql = "UPDATE notice SET title='$title', description='$description', date='$date' WHERE id=$id";
+                if ($conn->query($sql) === TRUE) {
+                    echo "<script>alert('Record updated successfully');</script>";
+                    echo "<script>window.location.href='a_notice.php';</script>";
+                } else {
+                    echo "Error updating record: " . $conn->error;
+                    echo "<script>window.location.href='edit_notice.php?id=$id';</script>";
+                }
             }
+            $conn->close();
         }
         ?>
     </div>

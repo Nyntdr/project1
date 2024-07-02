@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Edit Student</title>
+    <link rel="stylesheet" href="a_details.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -106,8 +107,6 @@
             <input type="text" id="sname" name="sname" value="<?php echo $row['sname']; ?>" required>
             <label for="age">Age:</label>
             <input type="text" id="age" name="age" value="<?php echo $row['age']; ?>" required>
-            <label for="class">Class:</label>
-            <input type="text" id="class" name="class" value="<?php echo $row['class']; ?>" required>
             <label for="address">Address:</label>
             <input type="text" id="address" name="address" value="<?php echo $row['address']; ?>" required>
             <label for="p_phoneno">Parent Phone:</label>
@@ -124,18 +123,42 @@
             $sid = $_POST['sid'];
             $sname = $_POST['sname'];
             $age = $_POST['age'];
-            $class = $_POST['class'];
             $address = $_POST['address'];
             $p_phoneno = $_POST['p_phoneno'];
             $s_phoneno = $_POST['s_phoneno'];
+            $errors = [];
 
-            $sql = "UPDATE students SET sname='$sname', age='$age', class='$class', address='$address', p_phoneno='$p_phoneno', s_phoneno='$s_phoneno' WHERE sid=$sid";
+            if (!preg_match("/^[a-zA-Z\s]*$/", $sname)) {
+                $errors[] = "Name must contain only letters and spaces!";
+            }
+            if (!is_numeric($age) || $age < 1 || $age > 100) {
+                $errors[] = "Age must be a number between 1 and 100!";
+            }
+            if (!preg_match("/^[a-zA-Z\s,']*$/", $address)) {
+                $errors[] = "Address must contain only letters, spaces, and commas!";
+            }
+            if (!is_numeric($p_phoneno) || strlen($p_phoneno) !== 10) {
+                $errors[] = "Parent Phone Number must be exactly 10 digits and numeric only!";
+            }
+            if (!is_numeric($s_phoneno) || strlen($s_phoneno) !== 10) {
+                $errors[] = "Student Phone Number must be exactly 10 digits and numeric only!";
+            }
+            if (empty($errors)) {
+            $sql = "UPDATE students SET sname='$sname', age='$age', address='$address', p_phoneno='$p_phoneno', s_phoneno='$s_phoneno' WHERE sid=$sid";
             if ($conn->query($sql) === TRUE) {
                 echo "<script>alert('Record updated successfully');</script>";
                 echo "<script>window.location.href='ed_student.php';</script>";
             } else {
                 echo "Error updating record: " . $conn->error;
             }
+            $conn->close();
+        } else {
+            foreach ($errors as $error) {
+                echo "<script>alert('$error');</script>";
+                echo "<script>window.location.href='edit_student.php?sid=$sid';</script>";
+
+            }
+        }
         }
         ?>
     </div>

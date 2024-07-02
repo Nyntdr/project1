@@ -24,9 +24,8 @@
                 <th>Subject ID</th>
                 <th>Subject Name</th>
                 <th>Subject Code</th>
-                <th>Credit Hour</th>
-                <th>Theory</th>
-                <th>Practical</th>
+                <th>Theory(%)</th>
+                <th>Practical(%)</th>
             </tr>
             <?php
              include('connection.php');
@@ -38,7 +37,7 @@
              $row = $result->fetch_assoc();
              $uid = $row['uid'];
              } 
-             $sql = "SELECT s.subjectid, s.subject_name, s.scode, s.credit_hour, s.theory, s.practical FROM subjects as s JOIN learns as l ON s.subjectid = l.subjectid 
+             $sql = "SELECT s.subjectid, s.subject_name, s.scode, s.theory, s.practical FROM subjects as s JOIN learns as l ON s.subjectid = l.subjectid 
                     JOIN students as st ON l.sid = st.sid WHERE st.uid=$uid;";
              $result = $conn->query($sql);
             if ($result->num_rows > 0) {
@@ -47,7 +46,6 @@
                     echo "<td>".$row["subjectid"]."</td>";
                     echo "<td>".$row["subject_name"]."</td>";
                     echo "<td>".$row["scode"]."</td>";
-                    echo "<td>".$row["credit_hour"]."</td>";
                     echo "<td>".$row["theory"]."</td>";
                     echo "<td>".$row["practical"]."</td>";
                     echo "</tr>";

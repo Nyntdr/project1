@@ -66,7 +66,7 @@
                     echo "<td>" . $row["sname"] . "</td>";
                     echo "<td>" . $row["subjectid"] . "</td>";
                     echo "<td>" . $row["subject_name"] . "</td>";
-                    echo "<td><a href='delete_learn.php?id=" . $row["sid"] . "'>Delete</a></td>"; 
+                    echo "<td><a href='delete_learn.php?sid=" . $row["sid"] . "&subjectid=" . $row["subjectid"] . "'>Delete</a></td>"; 
                     echo "</tr>";
                 }
             } else {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Student Details</title>
+    <title>User Details</title>
     <link rel="stylesheet" href="a_details.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
 
     <div class="content">
         <div class="header">
-            <h1>Username Details:</h1>
+            <h1>Users Details:</h1>
         </div>
         <table>
             <tr>
@@ -37,7 +37,7 @@
                     echo "<td>" . $row["uid"] . "</td>";
                     echo "<td>" . $row["name"] . "</td>";
                     echo "<td>" . $row["email"] . "</td>";
-                    echo "<td>" . $row["password"] . "</td>";
+                    echo "<td> Password Hidden</td>";
                     echo "<td>" . $row["role"] . "</td>";
                     echo "</tr>";
                 }

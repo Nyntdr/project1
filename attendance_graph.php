@@ -127,7 +127,7 @@
 
         // Check attendance level and provide suggestions
         $suggestion = "";
-        if ($averageAttendance > 90) {
+        if ($averageAttendance >= 80) {
             $suggestion = "Congratulations! You have excellent attendance. Keep up the good work!";
             $color = "green";
         } elseif ($averageAttendance >= 50) {

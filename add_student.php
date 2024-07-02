@@ -46,15 +46,7 @@
             text-align: center;
             margin-bottom: 20px;
         }
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-        }
-        input[type="text"],
-        input[type="password"],
-        input[type="submit"],
-        input[type="email"],
-        select {
+        select, input[type="text"], input[type="submit"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -84,11 +76,6 @@
             bottom: 0;
             width: 100%;
         }
-        select {
-            appearance: none;
-            background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23333" d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
-            background-size: 20px;
-        }
     </style>
 </head>
 <body>
@@ -103,17 +90,29 @@
     <div class="container">
         <h2>Add Student</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <label for="uid">User ID:</label>
-            <input type="text" id="uid" name="uid" value="<?php echo isset($_POST['uid']) ? $_POST['uid'] : ''; ?>" required><br><br>
+            <label for="uid">Select User:</label>
+            <select id="uid" name="uid" required>
+                <option value="">Select User</option>
+                <?php
+                include_once('connection.php');
+                $sql_users = "SELECT uid, name FROM users WHERE role = 'student'";
+                $result_users = $conn->query($sql_users);
 
+                if ($result_users && $result_users->num_rows > 0) {
+                    while ($row = $result_users->fetch_assoc()) {
+                        echo "<option value='" . $row['uid'] . "'>" . $row['uid'] . " - " . $row['name'] . "</option>";
+                    }
+                } else {
+                    echo "<option value=''>No students found</option>";
+                }
+                ?>
+            </select>
+            
             <label for="sname">Name:</label>
             <input type="text" id="sname" name="sname" value="<?php echo isset($_POST['sname']) ? $_POST['sname'] : ''; ?>" required><br><br>
             
             <label for="age">Age:</label>
             <input type="text" id="age" name="age" value="<?php echo isset($_POST['age']) ? $_POST['age'] : ''; ?>" required><br><br>
-            
-            <label for="class">Class:</label>
-            <input type="text" id="class" name="class" value="<?php echo isset($_POST['class']) ? $_POST['class'] : ''; ?>" required><br><br>
             
             <label for="address">Address:</label>
             <input type="text" id="address" name="address" value="<?php echo isset($_POST['address']) ? $_POST['address'] : ''; ?>" required><br><br>
@@ -137,12 +136,16 @@
         $uid = $_POST['uid'];
         $name = $_POST['sname'];
         $age = $_POST['age'];
-        $class = $_POST['class'];
         $address = $_POST['address'];
         $p_phoneno = $_POST['p_phoneno'];
         $s_phoneno = $_POST['s_phoneno'];
         
         $errors = [];
+        
+        if (empty($uid)) {
+            $errors[] = "User ID is required!";
+        }
+        
         if (!preg_match("/^[a-zA-Z\s]*$/", $name)) {
             $errors[] = "Name must contain only letters and spaces!";
         }
@@ -158,17 +161,26 @@
         if (!is_numeric($s_phoneno) || strlen($s_phoneno) !== 10) {
             $errors[] = "Student Phone Number must be exactly 10 digits and numeric only!";
         }
+
+        // Check if the selected UID is already used in the students table
+        include_once('connection.php');
+        $check_uid_sql = "SELECT * FROM students WHERE uid = '$uid'";
+        $uid_result = $conn->query($check_uid_sql);
+
+        if ($uid_result->num_rows > 0) {
+            $errors[] = "User ID already exists in students database!";
+        }
+
         if (empty($errors)) {
-            include('connection.php');
             $uid = mysqli_real_escape_string($conn, $uid);
             $name = mysqli_real_escape_string($conn, $name);
             $age = mysqli_real_escape_string($conn, $age);
-            $class = mysqli_real_escape_string($conn, $class);
             $address = mysqli_real_escape_string($conn, $address);
             $p_phoneno = mysqli_real_escape_string($conn, $p_phoneno);
             $s_phoneno = mysqli_real_escape_string($conn, $s_phoneno);
-            $sql = "INSERT INTO students (uid, sname, age, class, address, p_phoneno, s_phoneno) 
-                    VALUES ('$uid', '$name', '$age', '$class', '$address', '$p_phoneno', '$s_phoneno')";
+
+            $sql = "INSERT INTO students (uid, sname, age, address, p_phoneno, s_phoneno) 
+                    VALUES ('$uid', '$name', '$age', '$address', '$p_phoneno', '$s_phoneno')";
             
             if ($conn->query($sql) === TRUE) {
                 echo "<script>alert('Student added successfully!');</script>";
@@ -179,7 +191,7 @@
 
             $conn->close();
         } else {
-                  foreach ($errors as $error) {
+            foreach ($errors as $error) {
                 echo "<script>alert('$error');</script>";
             }
         }

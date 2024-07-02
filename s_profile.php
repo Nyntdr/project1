@@ -4,7 +4,7 @@ include('connection.php');
 
 // Fetch user information
 $username = $_SESSION['username'];
-$sql = "SELECT u.name, s.sname, u.email, u.role, s.age, s.class, s.p_phoneno, s.s_phoneno, s.address 
+$sql = "SELECT u.name, s.sname, u.email, u.role, s.age,s.p_phoneno, s.s_phoneno, s.address 
         FROM users u 
         JOIN students s ON u.uid = s.uid 
         WHERE u.name = '$username'";
@@ -17,7 +17,6 @@ if ($result->num_rows > 0) {
     $email = $row['email'];
     $role= $row['role'];
     $age = $row['age'];
-    $class = $row['class'];
     $pphone = $row['p_phoneno'];
     $sphone= $row['s_phoneno'];
     $address = $row['address'];
@@ -114,7 +113,6 @@ $conn->close();
                 <p>Role: <?php echo $role; ?></p>
                 <p>Student Name: <?php echo $sname; ?></p>
                 <p>Age: <?php echo $age; ?></p>
-                <p>Class: <?php echo $class; ?></p>
                 <p>Parent Phone No: <?php echo $pphone; ?></p>
                 <p>My Phone No: <?php echo $sphone; ?></p>
                 <p>Address: <?php echo $address; ?></p>

@@ -98,7 +98,8 @@
             <input type="text" id="title" name="title" required>
             <label for="description">Description:</label>
             <textarea id="description" name="description" rows="4" required></textarea>
-            <input type="date" id="date" name="date" required>
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
             <input type="submit" value="Add">
         </form>
     </div>

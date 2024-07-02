@@ -37,7 +37,7 @@
                     echo "<td>" . $row["uid"] . "</td>";
                     echo "<td>" . $row["name"] . "</td>";
                     echo "<td>" . $row["email"] . "</td>";
-                    echo "<td>" . $row["password"] . "</td>";
+                    echo "<td>Password Hidden</td>";
                     echo "<td>" . $row["role"] . "</td>";
                     echo "<td><a href=\"edit_user.php?id=" . $row["uid"] . "\">Edit</a></td>";
                     echo "</tr>";

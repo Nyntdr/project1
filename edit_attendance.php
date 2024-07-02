@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Attendance</title>
+    <title>Edit Attendance Details</title>
+    <link rel="stylesheet" href="a_details.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -75,6 +76,11 @@
             display: block;
             margin-bottom: 5px;
         }
+        .note {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -89,44 +95,67 @@
 
     <div class="content">
         <div class="header">
-            <h1>Edit Attendance</h1>
+            <h1>Edit Attendance Details</h1>
         </div>
+
         <?php
         include('connection.php');
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+        if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id']) && isset($_GET['subject'])) {
             $id = $_GET['id'];
-            $sql = "SELECT * FROM attendance WHERE id=$id";
+            $subject_name = $_GET['subject'];
+
+            $sql = "SELECT a.sid, s.sname, a.subject_name, a.attendance 
+                    FROM attendance a
+                    JOIN students s ON a.sid = s.sid
+                    WHERE a.sid = $id AND a.subject_name = '$subject_name'";
+    
             $result = $conn->query($sql);
+
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
         ?>
-        <form method="post" action="">
-            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <input type="hidden" name="sid" value="<?php echo $row['sid']; ?>">
+            <input type="hidden" name="subject_name" value="<?php echo $row['subject_name']; ?>">
+            <label for="sname">Student Name:</label>
+            <input type="text" id="sname" name="sname" value="<?php echo $row['sname']; ?>" readonly>
             <label for="subject">Subject Name:</label>
-            <input type="text" id="subject" name="subject" value="<?php echo $row['subject_name']; ?>" required>
+            <input type="text" id="subject" name="subject" value="<?php echo $row['subject_name']; ?>" readonly>
             <label for="attendance">Attendance:</label>
             <input type="text" id="attendance" name="attendance" value="<?php echo $row['attendance']; ?>" required>
             <input type="submit" value="Update">
         </form>
         <?php
             } else {
-                echo "Student not found in attendance.";
+                echo "Attendance record not found.";
             }
         } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $id = $_POST['id'];
+            $sid = $_POST['sid'];
+            $subject_name = $_POST['subject_name'];
             $attendance = $_POST['attendance'];
-            $subject = $_POST['subject'];
 
-            $sql = "UPDATE attendance SET  attendance='$attendance', subject_name='$subject' WHERE id=$id";
-            if ($conn->query($sql) === TRUE) {
-                echo "<script>alert('Record updated successfully');</script>";
-                echo "<script>window.location.href='ed_attendance.php';</script>";
+            // Validation for attendance value
+            if (is_numeric($attendance) && $attendance >= 1 && $attendance <= 100) {
+                $sql_update = "UPDATE attendance SET attendance='$attendance' WHERE sid=$sid AND subject_name='$subject_name'";
+
+                if ($conn->query($sql_update) === TRUE) {
+                    echo "<script>alert('Record updated successfully');</script>";
+                    echo "<script>window.location.href='ed_attendance.php';</script>";
+                } else {
+                    echo "Error updating record: " . $conn->error;
+                }
             } else {
-                echo "Error updating record: " . $conn->error;
+                echo "<script>alert('Attendance must be a number between 1 and 100');</script>";
+                echo "<script>window.location.href='edit_attendance.php?id=$sid&subject=$subject_name';</script>";
             }
         }
+
+        $conn->close();
         ?>
+        <div class="note">Note: Only attendance can be edited.</div>
     </div>
+
     <footer>
         &copy; <?php echo date("Y"); ?> Student Information Management System 
     </footer>

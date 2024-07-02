@@ -24,7 +24,9 @@ input[type="submit"] {
     border-radius: 5px;
     box-sizing: border-box;
 }
-input[type="submit"] {
+input[type="submit"],
+input[type="button"]
+ {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -45,4 +47,9 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
 }

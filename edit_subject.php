@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Edit Subject</title>
-    <!-- <link rel="stylesheet" href="a_details.css"> -->
+    <link rel="stylesheet" href="a_details.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -101,15 +101,15 @@
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
         ?>
-        <form method="post" action="">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <input type="hidden" name="subjectid" value="<?php echo $row['subjectid']; ?>">
             <label for="subject_name">Subject Name:</label>
             <input type="text" id="subject_name" name="subject_name" value="<?php echo $row['subject_name']; ?>" required>
             <label for="scode">Subject Code:</label>
             <input type="text" id="scode" name="scode" value="<?php echo $row['scode']; ?>" required>
-            <label for="theory">Theory:</label>
+            <label for="theory">Theory(%):</label>
             <input type="text" id="theory" name="theory" value="<?php echo $row['theory']; ?>" required>
-            <label for="practical">Practical:</label>
+            <label for="practical">Practical(%):</label>
             <input type="text" id="practical" name="practical" value="<?php echo $row['practical']; ?>" required>
             <input type="submit" value="Update">
         </form>
@@ -124,13 +124,59 @@
             $theory = $_POST['theory'];
             $practical = $_POST['practical'];
 
-            $sql = "UPDATE subjects SET subject_name='$subject_name', scode='$scode', theory='$theory', practical='$practical' WHERE subjectid=$subjectid";
+            // Validation
+            $valid = true;
+            $error_message = '';
 
-            if ($conn->query($sql) === TRUE) {
-                echo "<script>alert('Record updated successfully');</script>";
-                echo "<script>window.location.href='ed_subject.php';</script>";
+            if (!preg_match('/^[a-zA-Z0-9]*[a-zA-Z][a-zA-Z0-9 ]*$/', $subject_name)) {
+                $valid = false;
+                $error_message .= "Subject name must contain letters and spaces and numbers!";
+            }
+            if (!preg_match('/^[A-Z0-9]+$/', $scode)) {
+                $valid = false;
+                $error_message .= "Subject code must contain only uppercase letters and numbers!";
+            }
+            if (!is_numeric($theory) || !is_numeric($practical)) {
+                $valid = false;
+                $error_message .= "Theory and Practical must be numeric values!";
+            }
+            elseif ($theory < 0 || $practical < 0) {
+                $valid = false;
+                $error_message .= "Theory and Practical cannot be negative!";
+            }
+            elseif ($theory + $practical != 100) {
+                $valid = false;
+                $error_message .= "Theory and Practical must sum up to 100%!";
+            }
+
+            // Check uniqueness
+            $sql_check_name = "SELECT * FROM subjects WHERE subjectid != $subjectid AND subject_name = '$subject_name'";
+            $sql_check_code = "SELECT * FROM subjects WHERE subjectid != $subjectid AND scode = '$scode'";
+            
+            $result_name = $conn->query($sql_check_name);
+            $result_code = $conn->query($sql_check_code);
+
+            if ($result_name->num_rows > 0) {
+                $valid = false;
+                $error_message .= "Subject name already exists!";
+            }
+            if ($result_code->num_rows > 0) {
+                $valid = false;
+                $error_message .= "Subject code already exists!";
+            }
+
+            if ($valid) {
+                $sql = "UPDATE subjects SET subject_name='$subject_name', scode='$scode', theory='$theory', practical='$practical' WHERE subjectid=$subjectid";
+
+                if ($conn->query($sql) === TRUE) {
+                    echo "<script>alert('Record updated successfully');</script>";
+                    echo "<script>window.location.href='ed_subject.php';</script>";
+                } else {
+                    echo "Error updating record: " . $conn->error;
+                }
             } else {
-                echo "Error updating record: " . $conn->error;
+                echo "<script>alert('$error_message');</script>";
+                echo "<script>window.location.href='edit_subject.php?id=$subjectid';</script>";
             }
 
             $conn->close();

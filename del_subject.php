@@ -24,8 +24,8 @@
                 <th>Subject ID</th>
                 <th>Subject Name</th>
                 <th>Subject Code</th>
-                <th>Theory</th>
-                <th>Practical</th>
+                <th>Theory(%)</th>
+                <th>Practical(%)</th>
                 <th>Action</th>
             </tr>
             <?php

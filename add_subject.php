@@ -9,11 +9,11 @@
             align-items: center;
         }
         .percentage-input input {
-            padding-right: 25px; /* Space for percentage symbol */
+            padding-right: 25px; 
         }
         .percentage-input::after {
             content: '%';
-            margin-left: -20px; /* Adjust for alignment */
+            margin-left: -20px; 
         }
     </style>
 </head>
@@ -41,13 +41,12 @@
                 <label for="scode">Subject Code:</label>
                 <input type="text" id="scode" name="scode" required><br><br>
 
-                    <label for="theory">Theory (%):</label>
-                    <input type="text" id="theory" name="theory" required><br><br>
-            
-                    <label for="practical">Practical (%):</label>
-                    <input type="text" id="practical" name="practical" required><br><br>
-                
+                <label for="theory">Theory (%):</label>
+                <input type="text" id="theory" name="theory" required><br><br>
 
+                <label for="practical">Practical (%):</label>
+                <input type="text" id="practical" name="practical" required><br><br>
+                
                 <input type="submit" value="Add Subject">
             </form>
         </div>
@@ -59,8 +58,13 @@
             $theory = $_POST['theory'];
             $practical = $_POST['practical'];
 
-            // Validate theory and practical inputs
-            if (!is_numeric($theory) || !is_numeric($practical)) {
+            if (!preg_match('/^[a-zA-Z0-9]*[a-zA-Z][a-zA-Z0-9 ]*$/', $subject_name)) {
+                echo "<script>alert('Subject name must contain letters and spaces and numbers!');</script>";
+            }
+            elseif (!preg_match('/^[A-Z0-9]+$/', $scode)) {
+                echo "<script>alert('Subject code must contain only uppercase letters and numbers.!');</script>";
+            }
+            elseif (!is_numeric($theory) || !is_numeric($practical)) {
                 echo "<script>alert('Theory and Practical must be numeric values!');</script>";
             } elseif ($theory < 0 || $practical < 0) {
                 echo "<script>alert('Theory and Practical cannot be negative!');</script>";

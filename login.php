@@ -4,9 +4,9 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $encrypt = md5($password);
+    // $encrypt = md5($password);
     include('connection.php');    
-    $sql = "SELECT role FROM users WHERE name='$username' AND password='$encrypt'";
+    $sql = "SELECT role FROM users WHERE name='$username' AND password='$password'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -48,9 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" id="username" name="username" value="<?php if(isset($_COOKIE["username"])){echo $_COOKIE["username"]; }?>" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" value="<?php if(isset($_COOKIE["password"])){echo $_COOKIE["password"]; }?>" required>
-            <input type="checkbox" id="show_password"> Show Password
+            <input type="checkbox" id="show_password"> Show Password <input type="checkbox" id="remember" name="remember"> Remember Me
             <input type="submit" value="Login"><br>
-            <input type="checkbox" id="remember" name="remember"> Remember Me
         </form>
     </div>
     <script>
